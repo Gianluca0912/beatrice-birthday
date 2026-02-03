@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Per Beatrice ❤️</title>
+    <style>
+        /* ========================================
+           FONTS & RESET
+        ======================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #fde2e4 0%, #f4e4d7 50%, #fad2e1 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Subtle animated grain texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(255, 182, 193, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 218, 224, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+            animation: grain 8s ease-in-out infinite;
+        }
+
+        @keyframes grain {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ========================================
+           SECTION 1 - WELCOME BANNER
+        ======================================== */
+        .welcome-section {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .welcome-section.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 700;
+            color: #d4567a;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(212, 86, 122, 0.1);
+            animation: fadeInDown 1s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Cute cat illustration */
+        .welcome-image {
+            max-width: 150px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 2rem;
+            animation: fadeInScale 1s ease 0.2s backwards, floatGentle 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 10px rgba(212, 86, 122, 0.2));
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes floatGentle {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
+        }
+
+        /* Button container */
+        .button-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.3s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Elegant buttons */
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 500;
+            padding: 1rem 3rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 86, 122, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            color: #fff;
+        }
+
+        .btn-yes:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(212, 86, 122, 0.4);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #f6d5d5 0%, #e8d3cf 100%);
+            color: #8e7171;
+        }
+
+        .btn-no:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(142, 113, 113, 0.3);
+        }
+
+        /* Button ripple effect */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Playful rejection message */
+        .rejection-message {
+            margin-top: 2rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #d4567a;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.5s ease;
+        }
+
+        .rejection-message.show {
+            opacity: 1;
+            transform: scale(1);
+            animation: heartbeat 1.5s ease infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* ========================================
+           SECTION 2 - BIRTHDAY MESSAGE
+        ======================================== */
+        .birthday-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100vh;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(50px);
+            transition: all 1s ease;
+            overflow: hidden;
+        }
+
+        .birthday-section.show {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* Birthday card container */
+        .birthday-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 4rem 3rem;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(212, 86, 122, 0.3);
+            max-width: 600px;
+            width: 100%;
+            position: relative;
+            animation: scaleIn 0.8s ease;
+            z-index: 10;
+        }
+
+        /* Birthday cat image */
+        .birthday-image {
+            max-width: 180px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto 2rem;
+            display: block;
+            animation: fadeIn 1s ease 0.9s backwards, floatGentle 3s ease-in-out 1.9s infinite;
+            filter: drop-shadow(0 4px 10px rgba(212, 86, 122, 0.2));
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Static cake emojis - NO ANIMATION */
+        .birthday-card::before,
+        .birthday-card::after {
+            content: '🎂';
+            position: absolute;
+            font-size: 2.5rem;
+            opacity: 0.4;
+        }
+
+        .birthday-card::before {
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .birthday-card::after {
+            bottom: 1rem;
+            right: 1rem;
+        }
+
+        /* Main birthday heading */
+        .birthday-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 7vw, 4rem);
+            font-weight: 700;
+            color: #d4567a;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(212, 86, 122, 0.15);
+            animation: fadeIn 1s ease 0.3s backwards;
+        }
+
+        /* Subheading */
+        .birthday-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-weight: 300;
+            color: #a8727d;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease 0.5s backwards;
+        }
+
+        /* Date display */
+        .birthday-date {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 600;
+            color: #d4567a;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3) 0%, rgba(255, 218, 224, 0.3) 100%);
+            border-radius: 20px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(212, 86, 122, 0.2);
+            animation: fadeIn 1s ease 0.7s backwards, pulse 2s ease-in-out 1.7s infinite;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Floating emojis animation (only outside the card) */
+        .floating-emoji {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 8s ease-in-out infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+            }
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+        @media (max-width: 768px) {
+            .button-container {
+                gap: 1rem;
+            }
+
+            .btn {
+                font-size: 1rem;
+                padding: 0.875rem 2rem;
+            }
+
+            .birthday-card {
+                padding: 3rem 2rem;
+            }
+
+            .welcome-image {
+                max-width: 130px;
+            }
+
+            .birthday-image {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                font-size: 0.9rem;
+                padding: 0.75rem 1.5rem;
+            }
+
+            .birthday-card {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .rejection-message {
+                font-size: 1.2rem;
+            }
+
+            .welcome-image {
+                max-width: 110px;
+            }
+
+            .birthday-image {
+                max-width: 130px;
+            }
+        }
+
+        /* ========================================
+           UTILITY CLASSES
+        ======================================== */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+         SECTION 1: WELCOME BANNER
+    ======================================== -->
+    <section class="welcome-section" id="welcomeSection">
+        <!-- Cute cat illustration - external image file -->
+        <img src="cat-love.jpg" class="welcome-image" alt="Cat with heart">
+
+        <h1 class="welcome-title">Hey, sei tu Beatrice?</h1>
+
+        <div class="button-container">
+            <button class="btn btn-yes" id="btnYes">Sì</button>
+            <button class="btn btn-no" id="btnNo">No</button>
+        </div>
+
+        <div class="rejection-message" id="rejectionMessage">
+            Allora questo sito non è per te 💔
+        </div>
+    </section>
+
+    <!-- ========================================
+         SECTION 2: BIRTHDAY MESSAGE
+    ======================================== -->
+    <section class="birthday-section" id="birthdaySection">
+        <div class="birthday-card">
+            <!-- Birthday cat image -->
+            <img src="cat-birthday.jpg" class="birthday-image" alt="Birthday cat">
+
+            <h1 class="birthday-title">Buon compleanno amore</h1>
+            <p class="birthday-subtitle">dal tuo fidanzato ❤️</p>
+            <div class="birthday-date">07/02/2026</div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         VANILLA JAVASCRIPT
+    ======================================== -->
+    <script>
+        // Get DOM elements
+        const btnYes = document.getElementById('btnYes');
+        const btnNo = document.getElementById('btnNo');
+        const welcomeSection = document.getElementById('welcomeSection');
+        const birthdaySection = document.getElementById('birthdaySection');
+        const rejectionMessage = document.getElementById('rejectionMessage');
+
+        // Handle "Sì" button click
+        btnYes.addEventListener('click', function() {
+            // Fade out welcome section
+            welcomeSection.classList.add('fade-out');
+
+            // Show birthday section after a short delay
+            setTimeout(function() {
+                birthdaySection.classList.add('show');
+                // Start floating emojis animation
+                startFloatingEmojis();
+            }, 500);
+        });
+
+        // Handle "No" button click
+        btnNo.addEventListener('click', function() {
+            // Show playful rejection message
+            rejectionMessage.classList.add('show');
+        });
+
+        // Create floating emoji elements (hearts, sparkles, etc.)
+        function createFloatingEmoji() {
+            const emojis = ['❤️', '✨', '💕', '🌸', '💖'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+            const element = document.createElement('div');
+            element.textContent = randomEmoji;
+            element.className = 'floating-emoji';
+            element.style.left = Math.random() * 100 + '%';
+            element.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+            element.style.animationDelay = Math.random() * 2 + 's';
+            element.style.animationDuration = (6 + Math.random() * 4) + 's';
+
+            birthdaySection.appendChild(element);
+
+            // Remove element after animation completes
+            setTimeout(function() {
+                element.remove();
+            }, 12000);
+        }
+
+        // Start creating floating emojis periodically
+        let floatingInterval;
+        function startFloatingEmojis() {
+            // Create initial batch
+            for (let i = 0; i < 5; i++) {
+                setTimeout(createFloatingEmoji, i * 400);
+            }
+
+            // Continue creating emojis periodically
+            floatingInterval = setInterval(createFloatingEmoji, 1500);
+        }
+    </script>
+</body>
+</html>

@@ -60,11 +60,22 @@
             text-align: center;
             opacity: 1;
             transition: opacity 0.5s ease;
+            overflow: hidden;
         }
 
         .welcome-section.fade-out {
             opacity: 0;
             pointer-events: none;
+        }
+
+        /* Floating emojis for welcome section */
+        .welcome-floating-emoji {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 8s ease-in-out infinite;
         }
 
         .welcome-title {
@@ -491,6 +502,33 @@
             // Show playful rejection message
             rejectionMessage.classList.add('show');
         });
+
+        // Create floating emoji elements for welcome section
+        function createWelcomeFloatingEmoji() {
+            const emojis = ['❤️', '✨', '💕', '🌸', '💖'];
+            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+            const element = document.createElement('div');
+            element.textContent = randomEmoji;
+            element.className = 'welcome-floating-emoji';
+            element.style.left = Math.random() * 100 + '%';
+            element.style.fontSize = (1 + Math.random() * 1.5) + 'rem';
+            element.style.animationDelay = Math.random() * 2 + 's';
+            element.style.animationDuration = (6 + Math.random() * 4) + 's';
+
+            welcomeSection.appendChild(element);
+
+            // Remove element after animation completes
+            setTimeout(function() {
+                element.remove();
+            }, 12000);
+        }
+
+        // Start creating floating emojis on welcome section
+        for (let i = 0; i < 5; i++) {
+            setTimeout(createWelcomeFloatingEmoji, i * 400);
+        }
+        setInterval(createWelcomeFloatingEmoji, 1500);
 
         // Create floating emoji elements (hearts, sparkles, etc.)
         function createFloatingEmoji() {
